@@ -97,6 +97,20 @@ def editar_produto(produto_id):
         flash('Produto atualizado com sucesso!', 'success')
     return render_template('editar_produto.html', produto=produto)
 
+@bp.route('/deletar_produto/<int:produto_id>/', methods=['GET', 'POST'])
+def deletar_produto(produto_id):
+    if current_user.nivel_funcao != 'administrador':
+        abort(403)
+    
+    produto = Produto.query.get(produto_id)
+    if request.method == 'POST':
+        if request.method == 'POST':
+            db.session.delete(produto)
+            db.session.commit()
+            flash('Produto deletado com sucesso!', 'success')
+            return redirect(url_for('routes.index'))
+    return render_template('dashboard.html', produto=produto)
+
 
 
 @bp.errorhandler(403)

@@ -26,10 +26,10 @@
                 <ul class="navbar-nav ms-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Início</a>
+                        <a class="nav-link" href="{{ url_for('routes.index')}}">Início</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cadastrar Produto</a>
+                        <a class="nav-link" href="{{ url_for('routes.cadastrar_produto')}}">Cadastrar Produto</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('routes.registrar_usuario_comum')}}">Cadastrar Usuario</a>
