@@ -1,10 +1,9 @@
 # app/routes.py
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from flask_login import login_user, current_user
 from werkzeug.security import check_password_hash
 from app.models import Usuario
 from app import db
-import time
 
 bp = Blueprint('routes', __name__)
 
@@ -28,8 +27,7 @@ def login():
 @bp.route('/registrar/', methods=['GET', 'POST'])
 def registrar_usuario_comum():
     if current_user.nivel_funcao != 'administrador':
-        flash('Acesso negado. Apenas administradores podem registrar novos usuários!', 'danger')
-        return redirect(url_for('routes.index'))
+        abort(403)
 
     if request.method == "POST":
         username = request.form.get('username')
@@ -55,5 +53,11 @@ def registrar_usuario_comum():
             return redirect(url_for('routes.registrar_usuario_comum'))
 
     return render_template('registrar.html')
+
+
+@bp.errorhandler(403)
+def forbidden_error(error):
+    return render_template('403.html', message="Acesso negado. Apenas administradores podem registrar novos usuários!"), 403
+
 
 
