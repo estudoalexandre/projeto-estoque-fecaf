@@ -82,13 +82,20 @@ def cadastrar_produto():
         return redirect(url_for('routes.cadastrar_produto'))
     return render_template('cadastrar_produtos.html')
 
-@bp.route('/listar_produtos/')
-def listar_produtos():
+@bp.route('/editar_produto/<int:produto_id>/', methods=['GET', 'POST'])
+def editar_produto(produto_id):
     if current_user.nivel_funcao != 'administrador':
         abort(403)
-    todos_produtos = Produto.query.order_by(Produto.id).all()
-    print(todos_produtos)  # Isso vai mostrar os produtos no terminal
-    return render_template('dashboard.html', todos_produtos=todos_produtos)
+
+    produto = Produto.query.get(produto_id)
+    if request.method == 'POST':
+        produto.nome = request.form.get('nome')
+        produto.quantidade = request.form.get('quantidade')
+        produto.minimo_estoque = request.form.get('minimo_estoque')
+        produto.preco_unitario = request.form.get('preco_unitario')
+        db.session.commit()
+        flash('Produto atualizado com sucesso!', 'success')
+    return render_template('editar_produto.html', produto=produto)
 
 
 
