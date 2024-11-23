@@ -1,6 +1,6 @@
 # app/routes.py
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.models import Usuario
 from app import db
@@ -55,6 +55,12 @@ def registrar_usuario_comum():
 
     return render_template('registrar.html')
 
+@bp.route('/logout/', methods=['GET', 'POST'])
+def logout():
+    if request.method == 'POST':
+        logout_user()
+        flash('Você foi desconectado com sucesso!', 'success')
+        return redirect(url_for('routes.login'))
 
 @bp.errorhandler(403)
 def forbidden_error(error):
