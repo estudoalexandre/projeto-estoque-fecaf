@@ -1,7 +1,7 @@
 # app/routes.py
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from flask_login import login_user, current_user
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from app.models import Usuario
 from app import db
 
@@ -17,7 +17,7 @@ def login():
         username = request.form.get('username')    
         password = request.form.get('password')
         user = Usuario.query.filter_by(username=username).first()
-        if user and user.password == password:
+        if user and check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for('routes.index'))
         else:
@@ -42,7 +42,8 @@ def registrar_usuario_comum():
 
         # Cria o novo usuário dentro de um bloco try-except
         try:
-            novo_usuario = Usuario(username=username, password=password, email=email, nivel_funcao='comum')
+            password_hash = generate_password_hash(password)
+            novo_usuario = Usuario(username=username, password=password_hash, email=email)
             db.session.add(novo_usuario)
             db.session.commit()
             flash('Usuário registrado com sucesso!', 'success')
