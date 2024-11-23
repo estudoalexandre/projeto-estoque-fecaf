@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Registrar</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 w-50">
+        <h1 class="text-center">Criar Novo Usuário</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div>
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <form action="/registrar/" method="post">
+            <div class="form-group mb-3">
+                <label for="username">Nome de Usuário:</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="confirm_password">Confirmar Senha:</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Criar Usuário</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
