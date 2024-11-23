@@ -34,8 +34,13 @@ def registrar_usuario_comum():
 
     if request.method == "POST":
         username = request.form.get('username')
-        password = request.form.get('password')
         email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+        
+        if password != confirm_password:
+            flash('As senhas não coincidem!', 'danger')
+            return redirect(url_for('routes.registrar_usuario_comum'))
 
         # Verifica se o username já existe
         user = Usuario.query.filter_by(username=username).first()
@@ -46,7 +51,8 @@ def registrar_usuario_comum():
         # Cria o novo usuário dentro de um bloco try-except
         try:
             password_hash = generate_password_hash(password)
-            novo_usuario = Usuario(username=username, password=password_hash, email=email)
+            
+            novo_usuario = Usuario(username=username, password=password_hash, email=email, confirm_password=password_hash)
             db.session.add(novo_usuario)
             db.session.commit()
             flash('Usuário registrado com sucesso!', 'success')
@@ -57,6 +63,33 @@ def registrar_usuario_comum():
             return redirect(url_for('routes.registrar_usuario_comum'))
 
     return render_template('registrar.html')
+
+@bp.route('/editar_usuario_comum/<int:usuario_id>/', methods=['GET', 'POST'])
+def editar_usuario_comum(usuario_id):
+    if current_user.nivel_funcao != 'administrador':
+        abort(403)
+    
+    usuario = Usuario.query.get(usuario_id)
+    if request.method == 'POST':
+        usuario.username = request.form.get('username')
+        usuario.email = request.form.get('email')
+        
+        print(usuario.username, usuario.email)
+        db.session.commit()
+        flash('Usuário atualizado com sucesso!', 'success')
+    return render_template('editar_usuario.html', usuario=usuario)
+
+@bp.route('/deletar_usuario_comum/<int:usuario_id>/', methods=['POST'])
+def deletar_usuario_comum(usuario_id):
+    if current_user.nivel_funcao != 'administrador':
+        abort(403)
+    
+    usuario = Usuario.query.get_or_404(usuario_id)
+    db.session.delete(usuario)
+    db.session.commit()
+    flash('Usuário deletado com sucesso!', 'success')
+    return redirect(url_for('routes.login'))
+    
 
 @bp.route('/logout/', methods=['GET', 'POST'])
 def logout():
@@ -69,6 +102,9 @@ def logout():
 @bp.route('/cadastrar_produto/', methods=['GET', 'POST'])
 @login_required
 def cadastrar_produto():
+    if current_user.nivel_funcao != 'administrador':
+        abort(403)
+    
     if request.method == 'POST':
         nome = request.form.get('nome')	
         quantidade = request.form.get('quantidade')
@@ -97,19 +133,18 @@ def editar_produto(produto_id):
         flash('Produto atualizado com sucesso!', 'success')
     return render_template('editar_produto.html', produto=produto)
 
-@bp.route('/deletar_produto/<int:produto_id>/', methods=['GET', 'POST'])
+
+@bp.route('/deletar_produto/<int:produto_id>/', methods=['POST'])
 def deletar_produto(produto_id):
     if current_user.nivel_funcao != 'administrador':
         abort(403)
     
-    produto = Produto.query.get(produto_id)
-    if request.method == 'POST':
-        if request.method == 'POST':
-            db.session.delete(produto)
-            db.session.commit()
-            flash('Produto deletado com sucesso!', 'success')
-            return redirect(url_for('routes.index'))
-    return render_template('dashboard.html', produto=produto)
+    produto = Produto.query.get_or_404(produto_id) 
+    db.session.delete(produto)
+    db.session.commit()
+    flash('Produto deletado com sucesso!', 'success')
+    return redirect(url_for('routes.index'))
+
 
 
 
