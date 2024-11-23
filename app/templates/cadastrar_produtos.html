@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 w-50">
+        <h2>Cadastrar Produtos</h2>
+        <form method="POST" action="/cadastrar_produto">
+
+            <div class="form-group">
+                <label for="nome">Nome do Produto</label>
+                <input type="text" class="form-control" id="nome" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="descricao">Quantidade</label>
+                <input class="form-control" id="quantidade" name="quantidade"required></input>
+            </div>
+            <div class="form-group">
+                <label for="preco">Estoque Minimo</label>
+                <input type="number" class="form-control" id="minimo_estoque" name="minimo_estoque" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="quantidade">Preço Unitario</label>
+                <input type="number" class="form-control" id="preco_unitario" name="preco_unitario" required>
+            </div><br>
+            <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

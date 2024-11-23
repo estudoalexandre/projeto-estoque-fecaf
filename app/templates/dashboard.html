@@ -1,3 +1,29 @@
 {% extends 'base.html' %}
 
+{% block content %}
+<div class="container mt-5">
+    <h2>Produtos</h2>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Estoque Mínimo</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in todos_produtos %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>{{ produto.quantidade }}</td>
+                <td>{{ produto.minimo_estoque }}</td>
+                <td>{{ produto.preco_unitario }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
+
+{% endblock %}

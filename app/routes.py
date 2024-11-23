@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
-from app.models import Usuario
+from app.models import Usuario, Produto
 from app import db
 
 bp = Blueprint('routes', __name__)
@@ -10,7 +10,9 @@ bp = Blueprint('routes', __name__)
 @bp.route('/')
 @login_required
 def index():
-    return render_template('dashboard.html')
+    todos_produtos = Produto.query.order_by(Produto.id).all()
+    print(todos_produtos)  # Isso vai mostrar os produtos no terminal
+    return render_template('dashboard.html', todos_produtos=todos_produtos)
 
 @bp.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -62,6 +64,33 @@ def logout():
         logout_user()
         flash('Você foi desconectado com sucesso!', 'success')
         return redirect(url_for('routes.login'))
+    
+
+@bp.route('/cadastrar_produto/', methods=['GET', 'POST'])
+@login_required
+def cadastrar_produto():
+    if request.method == 'POST':
+        nome = request.form.get('nome')	
+        quantidade = request.form.get('quantidade')
+        minimo_estoque = request.form.get('minimo_estoque')
+        preco_unitario = request.form.get('preco_unitario')
+        
+        novo_produto = Produto(nome=nome, quantidade=quantidade, minimo_estoque=minimo_estoque, preco_unitario=preco_unitario)
+        db.session.add(novo_produto)
+        db.session.commit()
+        flash('Produto cadastrado com sucesso!', 'success')
+        return redirect(url_for('routes.cadastrar_produto'))
+    return render_template('cadastrar_produtos.html')
+
+@bp.route('/listar_produtos/')
+def listar_produtos():
+    if current_user.nivel_funcao != 'administrador':
+        abort(403)
+    todos_produtos = Produto.query.order_by(Produto.id).all()
+    print(todos_produtos)  # Isso vai mostrar os produtos no terminal
+    return render_template('dashboard.html', todos_produtos=todos_produtos)
+
+
 
 @bp.errorhandler(403)
 def forbidden_error(error):
