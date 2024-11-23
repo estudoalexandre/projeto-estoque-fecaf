@@ -17,9 +17,15 @@
         </thead>
         <tbody>
             {% for produto in todos_produtos %}
-            <tr>
+            <tr class="text-center">
                 <td>{{ produto.nome }}</td>
+                {% if produto.quantidade < produto.minimo_estoque %}
+                <td class="text-black bg-warning" title="Quantidade abaixo do mínimo">{{ produto.quantidade }}
+                    <i class="bi bi-info-circle text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Quantidade abaixo do mínimo"></i>
+                </td>
+                {% else %}
                 <td>{{ produto.quantidade }}</td>
+                {% endif %}
                 <td>{{ produto.minimo_estoque }}</td>
                 <td>R$ {{ produto.preco_unitario }}</td>
                 {% if current_user.nivel_funcao != 'comum' %}
