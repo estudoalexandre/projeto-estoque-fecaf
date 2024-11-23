@@ -1,6 +1,6 @@
 # app/routes.py
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.models import Usuario
 from app import db
@@ -8,6 +8,7 @@ from app import db
 bp = Blueprint('routes', __name__)
 
 @bp.route('/')
+@login_required
 def index():
     return render_template('dashboard.html')
 
@@ -65,6 +66,10 @@ def logout():
 @bp.errorhandler(403)
 def forbidden_error(error):
     return render_template('403.html', message="Acesso negado. Apenas administradores podem registrar novos usuários!"), 403
+
+@bp.errorhandler(401)
+def unauthorized_error(error):
+    return render_template('401.html', message="Acesso negado. Faça login para acessar esta página!"), 401
 
 
 
