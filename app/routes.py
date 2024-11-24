@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
-from app.models import Usuario, Produto
+from app.models import Usuario, Produto, SaidaProduto
 from app import db
 from sqlalchemy.exc import IntegrityError
 
@@ -161,6 +161,8 @@ def saida_produto(produto_id):
             return redirect(url_for('routes.saida_produto', produto_id=produto_id))
         
         produto.quantidade -= quantidade
+        produto_saida = SaidaProduto(produto_id=produto_id, quantidade=quantidade, motivo=motivo)
+        db.session.add(produto_saida)
         db.session.commit()
         flash('Saída de produto registrada com sucesso!', 'success')
         return redirect(url_for('routes.index'))
