@@ -17,10 +17,11 @@ class Produto(db.Model):
     quantidade = db.Column(db.Integer, nullable=False)
     minimo_estoque = db.Column(db.Integer, nullable=False)
     preco_unitario = db.Column(db.Float, nullable=False)
+    data_entrada = db.Column(db.DateTime, nullable=False, default=datetime.now)
     
 class SaidaProduto(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     produto_id = db.Column(db.Integer, db.ForeignKey('produto.id'), nullable=False)
     quantidade = db.Column(db.Integer, nullable=False)
     data_saida = db.Column(db.DateTime, nullable=False, default=datetime.now)
-    motivo = db.Column(db.String(150), nullable=True, default='Venda')
+    motivo = db.Column(db.String(150), nullable=True, default='venda')

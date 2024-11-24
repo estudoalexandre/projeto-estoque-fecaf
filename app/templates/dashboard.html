@@ -11,7 +11,7 @@
                 <th>Estoque Mínimo</th>
                 <th>Preço</th>
                 {% if current_user.nivel_funcao != 'comum' %}
-                <th>Ações</th> <!-- Coluna para os ícones -->
+                <th>Ações</th> 
                 {% endif %}
             </tr>
         </thead>
@@ -37,6 +37,10 @@
                         <a href="{{ url_for('routes.editar_produto', produto_id=produto.id) }}"
                             class="btn btn-sm btn-warning me-2">
                             <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a href="{{ url_for('routes.editar_produto', produto_id=produto.id) }}"
+                            class="btn btn-sm btn-primary me-2">
+                            <i class="bi bi-cart-dash"></i>
                         </a>
                         <form action="{{ url_for('routes.deletar_produto', produto_id=produto.id) }}" method="POST"
                             style="display:inline;">
