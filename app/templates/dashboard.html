@@ -31,7 +31,7 @@
                     <td>{{ produto.quantidade }}</td>
                     {% endif %}
                     <td>{{ produto.minimo_estoque }}</td>
-                    <td>R$ {{ produto.preco_unitario }}</td>
+                    <td>R$ {{ "%.2f"|format(produto.preco_unitario) }}</td>
                     {% if current_user.nivel_funcao != 'comum' %}
                     <td>
                         <a href="{{ url_for('routes.editar_produto', produto_id=produto.id) }}"

@@ -12,7 +12,6 @@ bp = Blueprint('routes', __name__)
 @login_required
 def index():
     todos_produtos = Produto.query.order_by(Produto.id).all()
-    print(todos_produtos)  # Isso vai mostrar os produtos no terminal
     return render_template('dashboard.html', todos_produtos=todos_produtos)
 
 @bp.route('/login/', methods=['GET', 'POST'])
