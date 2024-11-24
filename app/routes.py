@@ -147,7 +147,24 @@ def deletar_produto(produto_id):
     return redirect(url_for('routes.index'))
 
 
-
+@bp.route('/saida_produto/<int:produto_id>/', methods=['GET', 'POST'])
+def saida_produto(produto_id):
+    if current_user.nivel_funcao != 'administrador':
+        abort(403)
+    
+    produto = Produto.query.get(produto_id)
+    if request.method == 'POST':
+        quantidade = int(request.form.get('quantidade'))
+        motivo = request.form.get('motivo')
+        if produto.quantidade < quantidade:
+            flash('Quantidade indisponível no estoque!', 'danger')
+            return redirect(url_for('routes.saida_produto', produto_id=produto_id))
+        
+        produto.quantidade -= quantidade
+        db.session.commit()
+        flash('Saída de produto registrada com sucesso!', 'success')
+        return redirect(url_for('routes.index'))
+    return render_template('saida_produto.html', produto=produto)
 
 @bp.errorhandler(403)
 def forbidden_error(error):
