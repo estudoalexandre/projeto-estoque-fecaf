@@ -4,6 +4,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.models import Usuario, Produto
 from app import db
+from sqlalchemy.exc import IntegrityError
 
 bp = Blueprint('routes', __name__)
 
