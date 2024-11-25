@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    console.log("tabulator.js");
     $('#produtoTabela').DataTable({
         "responsive": true,
         "paging": true,
