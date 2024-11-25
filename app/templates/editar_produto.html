@@ -11,16 +11,16 @@
             </div>
             <div class="form-group">
                 <label for="productDescription">Quantidade </label>
-                <input class="form-control" id="quantidade" name="quantidade" rows="3" value="{{ produto.quantidade }}"
+                <input type="number" class="form-control" id="quantidade" name="quantidade" rows="3" value="{{ produto.quantidade }}"
                     required></input>
             </div>
             <div class="form-group">
-                <label for="productPrice">Preço</label>
+                <label for="productPrice">Minimo Estoque</label>
                 <input type="number" class="form-control" id="minimo_estoque" name="minimo_estoque"
                     value="{{ produto.minimo_estoque }}" required>
             </div>
             <div class="form-group">
-                <label for="productQuantity">Quantidade</label>
+                <label for="productQuantity">Preço</label>
                 <input type="number" class="form-control" id="preco_unitario" name="preco_unitario"
                     value="{{ produto.preco_unitario }}" required>
             </div><br>

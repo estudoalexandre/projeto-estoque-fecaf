@@ -15,33 +15,38 @@
 
 <body>
     {% block nav %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg" style="background-color: #f8f9fa;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Meu Controle de Estoque</a>
+            <a class="navbar-brand fw-bold fs-4" href="#" style="color: #495057;">Meu Controle de Estoque</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-
+    
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-
+    
+                    <!-- Início -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('routes.index')}}">Início</a>
+                        <a class="nav-link fs-5" href="{{ url_for('routes.index') }}" style="color: #495057;">Início</a>
                     </li>
+    
+                    <!-- Links visíveis apenas para administradores -->
                     {% if current_user.nivel_funcao != 'comum' %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('routes.cadastrar_produto')}}">Cadastrar Produto</a>
+                        <a class="nav-link fs-5" href="{{ url_for('routes.cadastrar_produto') }}" style="color: #495057;">Cadastrar Produto</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('routes.registrar_usuario_comum')}}">Cadastrar Usuario</a>
+                        <a class="nav-link fs-5" href="{{ url_for('routes.registrar_usuario_comum') }}" style="color: #495057;">Cadastrar Usuário</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fs-5" href="{{ url_for('routes.listar_usuarios') }}" style="color: #495057;">Usuários cadastrados</a>
                     </li>
                     {% endif %}
+    
 
-                    <!-- Dropdown do Perfil -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> <!-- Ícone de perfil -->
+                        <a class="nav-link dropdown-toggle fs-5" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #495057;">
+                            <i class="bi bi-person-circle"></i> Olá, {{ current_user.username }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
                             <li><a class="dropdown-item" href="#">Meu Perfil</a></li>
@@ -50,13 +55,13 @@
                             <form action="/logout" method="post">
                                 <button type="submit" class="dropdown-item">Logout</button>
                             </form>
-
                         </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+    
     {% endblock %}
 
     {% block content %}

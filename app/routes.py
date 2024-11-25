@@ -38,6 +38,10 @@ def registrar_usuario_comum():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
         
+        if len(password) < 8:
+            flash('A senha deve ter no mínimo 8 caracteres!', 'danger')
+            return redirect(url_for('routes.registrar_usuario_comum'))
+        
         if password != confirm_password:
             flash('As senhas não coincidem!', 'danger')
             return redirect(url_for('routes.registrar_usuario_comum'))
@@ -63,6 +67,16 @@ def registrar_usuario_comum():
             return redirect(url_for('routes.registrar_usuario_comum'))
 
     return render_template('registrar.html')
+@bp.route('/listar_usuarios/', methods=['GET', 'POST'])
+def listar_usuarios():
+    if current_user.nivel_funcao != 'administrador':
+        abort(403)
+    try:
+        todos_usuarios = Usuario.query.all()
+    except:
+        return "<h1> Não existem usuarios cadastrados  </h1>"
+        
+    return render_template('listar_usuarios.html', todos_usuarios=todos_usuarios)
 
 @bp.route('/editar_usuario_comum/<int:usuario_id>/', methods=['GET', 'POST'])
 def editar_usuario_comum(usuario_id):
@@ -88,7 +102,7 @@ def deletar_usuario_comum(usuario_id):
     db.session.delete(usuario)
     db.session.commit()
     flash('Usuário deletado com sucesso!', 'success')
-    return redirect(url_for('routes.login'))
+    return redirect(url_for('routes.index'))
     
 
 @bp.route('/logout/', methods=['GET', 'POST'])
@@ -169,7 +183,7 @@ def saida_produto(produto_id):
 
 @bp.errorhandler(403)
 def forbidden_error(error):
-    return render_template('403.html', message="Acesso negado. Apenas administradores podem registrar novos usuários!"), 403
+    return render_template('403.html', message="Acesso negado. Apenas administradores podem acessar essa página "), 403
 
 @bp.errorhandler(401)
 def unauthorized_error(error):

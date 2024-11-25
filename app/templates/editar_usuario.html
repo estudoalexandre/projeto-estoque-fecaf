@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
-
-{% block title %} Editar Usuario {% endblock %}
+{% block title %}
+<title>Editar Usuario</title>
+{% endblock %}
 
 {% block content %}
 
@@ -36,7 +37,7 @@
         </form>
             <form action="{{ url_for('routes.deletar_usuario_comum', usuario_id=usuario.id) }}" class="text-center" method="POST">
                 <button type="submit" class="text-danger btn btn-link w-100"
-                    onclick="return confirm('Tem certeza que deseja excluir este produto?');">Deletar Usuario
+                    onclick="return confirm('Tem certeza que deseja excluir este usuario ?');">Deletar Usuario
                 </button>
             </form>
     </div>
