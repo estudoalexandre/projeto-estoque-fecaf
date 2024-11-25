@@ -2,3 +2,18 @@
     border-width: 1px;
     border: 1px solid #000000;
 }
+
+nav.navbar.navbar-expand-lg {
+    background-color: #3333;
+}
+
+a.nav-link.fs-5 {
+    color: #000000;
+}
+
+a.nav-link.fs-5:hover {
+    color: #3e86e5;
+    background-color: #000000;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    border: 1px solid #000000;
+}

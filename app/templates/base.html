@@ -15,9 +15,9 @@
 
 <body>
     {% block nav %}
-    <nav class="navbar navbar-expand-lg" style="background-color: #f8f9fa;">
+    <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand fw-bold fs-4" href="#" style="color: #495057;">Meu Controle de Estoque</a>
+            <a class="navbar-brand fw-bold fs-4" href="#">Meu Controle de Estoque</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -27,19 +27,19 @@
     
                     <!-- Início -->
                     <li class="nav-item">
-                        <a class="nav-link fs-5" href="{{ url_for('routes.index') }}" style="color: #495057;">Início</a>
+                        <a class="nav-link fs-5" href="{{ url_for('routes.index') }}">Início</a>
                     </li>
     
                     <!-- Links visíveis apenas para administradores -->
                     {% if current_user.nivel_funcao != 'comum' %}
                     <li class="nav-item">
-                        <a class="nav-link fs-5" href="{{ url_for('routes.cadastrar_produto') }}" style="color: #495057;">Cadastrar Produto</a>
+                        <a class="nav-link fs-5" href="{{ url_for('routes.cadastrar_produto') }}">Cadastrar Produto</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fs-5" href="{{ url_for('routes.registrar_usuario_comum') }}" style="color: #495057;">Cadastrar Usuário</a>
+                        <a class="nav-link fs-5" href="{{ url_for('routes.registrar_usuario_comum') }}">Cadastrar Usuário</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fs-5" href="{{ url_for('routes.listar_usuarios') }}" style="color: #495057;">Usuários cadastrados</a>
+                        <a class="nav-link fs-5" href="{{ url_for('routes.listar_usuarios') }}">Usuários cadastrados</a>
                     </li>
                     {% endif %}
     
