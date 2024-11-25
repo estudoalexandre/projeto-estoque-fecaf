@@ -31,6 +31,18 @@
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" class="form-control" value="{{ usuario.email }}" required>
             </div>
+            <div class="form-group mb-3">
+                <label for="status">Função:</label>
+                <select id="nivel_funcao" name="nivel_funcao" class="form-control">
+                    <option value="administrador">Administrador</option>
+                    <option value="comum">Comum</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="funcao">Função Atual:</label>
+                <input type="text"class="form-control" value="{{ usuario.nivel_funcao }}" disabled>
+            </div>
 
             <button type="submit" class="btn btn-primary w-100">Atualizar Usuario</button>
 

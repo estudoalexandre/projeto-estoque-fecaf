@@ -87,10 +87,10 @@ def editar_usuario_comum(usuario_id):
     if request.method == 'POST':
         usuario.username = request.form.get('username')
         usuario.email = request.form.get('email')
-        
-        print(usuario.username, usuario.email)
+        usuario.nivel_funcao = request.form.get('nivel_funcao')
         db.session.commit()
         flash('Usuário atualizado com sucesso!', 'success')
+        return redirect(url_for('routes.listar_usuarios'))
     return render_template('editar_usuario.html', usuario=usuario)
 
 @bp.route('/deletar_usuario_comum/<int:usuario_id>/', methods=['POST'])

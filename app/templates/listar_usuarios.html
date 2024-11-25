@@ -9,6 +9,7 @@
     <table id="produtoTabela" class="table table-bordered">
         <thead class="thead-dark">
             <tr>
+                <th>ID</th>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Nivel Funçao</th>
@@ -20,6 +21,7 @@
         <tbody>
             {% for usuario in todos_usuarios %}
             <tr class="text-center">
+                <td>{{ usuario.id }}</td>
                 <td>{{ usuario.username }}</td>
                 <td>{{ usuario.email }}</td>
                 <td>{{ usuario.nivel_funcao }}</td>
