@@ -29,6 +29,7 @@ def login():
     return render_template('login.html')
 
 @bp.route('/registrar/', methods=['GET', 'POST'])
+@login_required
 def registrar_usuario_comum():
     if current_user.nivel_funcao != 'administrador':
         abort(403)
@@ -68,7 +69,9 @@ def registrar_usuario_comum():
             return redirect(url_for('routes.registrar_usuario_comum'))
 
     return render_template('registrar.html')
+
 @bp.route('/listar_usuarios/', methods=['GET', 'POST'])
+@login_required
 def listar_usuarios():
     if current_user.nivel_funcao != 'administrador':
         abort(403)
@@ -80,6 +83,7 @@ def listar_usuarios():
     return render_template('listar_usuarios.html', todos_usuarios=todos_usuarios)
 
 @bp.route('/editar_usuario_comum/<int:usuario_id>/', methods=['GET', 'POST'])
+@login_required
 def editar_usuario_comum(usuario_id):
     if current_user.nivel_funcao != 'administrador':
         abort(403)
@@ -95,6 +99,7 @@ def editar_usuario_comum(usuario_id):
     return render_template('editar_usuario.html', usuario=usuario)
 
 @bp.route('/deletar_usuario_comum/<int:usuario_id>/', methods=['POST'])
+@login_required
 def deletar_usuario_comum(usuario_id):
     if current_user.nivel_funcao != 'administrador':
         abort(403)
@@ -107,6 +112,7 @@ def deletar_usuario_comum(usuario_id):
     
 
 @bp.route('/logout/', methods=['GET', 'POST'])
+@login_required
 def logout():
     if request.method == 'POST':
         logout_user()
@@ -121,7 +127,7 @@ def cadastrar_produto():
         abort(403)
     
     if request.method == 'POST':
-        nome = request.form.get('nome')	
+        nome = request.form.get('nome')    
         quantidade = request.form.get('quantidade')
         minimo_estoque = request.form.get('minimo_estoque')
         preco_unitario = request.form.get('preco_unitario')
@@ -134,6 +140,7 @@ def cadastrar_produto():
     return render_template('cadastrar_produtos.html')
 
 @bp.route('/editar_produto/<int:produto_id>/', methods=['GET', 'POST'])
+@login_required
 def editar_produto(produto_id):
     if current_user.nivel_funcao != 'administrador':
         abort(403)
@@ -150,6 +157,7 @@ def editar_produto(produto_id):
 
 
 @bp.route('/deletar_produto/<int:produto_id>/', methods=['POST'])
+@login_required
 def deletar_produto(produto_id):
     if current_user.nivel_funcao != 'administrador':
         abort(403)
@@ -162,6 +170,7 @@ def deletar_produto(produto_id):
 
 
 @bp.route('/saida_produto/<int:produto_id>/', methods=['GET', 'POST'])
+@login_required
 def saida_produto(produto_id):
     if current_user.nivel_funcao != 'administrador':
         abort(403)
@@ -193,6 +202,3 @@ def unauthorized_error(error):
 @bp.errorhandler(404)
 def not_found_error(error):
     return render_template('404.html', message="Página não encontrada!"), 404
-
-
-
