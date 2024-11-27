@@ -11,7 +11,7 @@
                 <th>Estoque Mínimo</th>
                 <th>Preço</th>
                 {% if current_user.nivel_funcao != 'comum' %}
-                <th>Ações</th> 
+                <th>Ações</th>
                 {% endif %}
             </tr>
         </thead>
@@ -23,8 +23,8 @@
                     title="Quantidade abaixo do mínimo">{{ produto.quantidade }}
                     <small>
                         <i class="bi bi-info-circle text-danger " data-bs-toggle="tooltip" data-bs-placement="top"
-                            title="Quantidade abaixo do mínimo"></i><i class="bi bi-info-circle text-danger " data-bs-toggle="tooltip" data-bs-placement="top"
-                            title="Quantidade abaixo do mínimo"></i>
+                            title="Quantidade abaixo do mínimo"></i><i class="bi bi-info-circle text-danger "
+                            data-bs-toggle="tooltip" data-bs-placement="top" title="Quantidade abaixo do mínimo"></i>
                     </small>
                     </td>
                     {% else %}

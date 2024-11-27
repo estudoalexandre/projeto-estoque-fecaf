@@ -8,6 +8,7 @@ from sqlalchemy.exc import IntegrityError
 
 bp = Blueprint('routes', __name__)
 
+
 @bp.route('/')
 @login_required
 def index():
@@ -188,6 +189,10 @@ def forbidden_error(error):
 @bp.errorhandler(401)
 def unauthorized_error(error):
     return render_template('401.html', message="Acesso negado. Faça login para acessar esta página!"), 401
+
+@bp.errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html', message="Página não encontrada!"), 404
 
 
 
